@@ -110,8 +110,8 @@ class GoogleAnalyticsCounterFilter extends FilterBase implements ContainerFactor
    *   Replaced string.
    */
   private function handleText($text) {
-    $matchlink = '';
-    $original_match = '';
+    $matchlink = [];
+    $original_match = [];
     // This allows more than one pipe sign (|) ...
     // does not hurt and leaves room for possible extension.
     preg_match_all("/(\[)gac[^\]]*(\])/s", $text, $matches);

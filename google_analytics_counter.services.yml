@@ -4,7 +4,7 @@ services:
 
   google_analytics_counter.app_manager:
     class: \Drupal\google_analytics_counter\GoogleAnalyticsCounterAppManager
-    arguments: ['@config.factory', '@database', '@state', '@path.alias_manager', '@path.matcher', '@language_manager', '@logger.channel.google_analytics_counter', '@messenger', '@google_analytics_counter.auth_manager']
+    arguments: ['@config.factory', '@database', '@state', '@path_alias.manager', '@path.matcher', '@language_manager', '@logger.channel.google_analytics_counter', '@messenger', '@google_analytics_counter.auth_manager']
 
   google_analytics_counter.auth_manager:
     class: \Drupal\google_analytics_counter\GoogleAnalyticsCounterAuthManager
@@ -12,7 +12,7 @@ services:
 
   google_analytics_counter.custom_field_generator:
     class: Drupal\google_analytics_counter\GoogleAnalyticsCounterCustomFieldGenerator
-    arguments: ['@config.factory', '@database', '@logger.channel.google_analytics_counter', '@messenger']
+    arguments: ['@config.factory', '@database', '@logger.channel.google_analytics_counter', '@messenger', '@entity_display.repository']
 
   google_analytics_counter.message_manager:
     class: Drupal\google_analytics_counter\GoogleAnalyticsCounterMessageManager

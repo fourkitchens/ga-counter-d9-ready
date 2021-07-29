@@ -5,6 +5,7 @@ namespace Drupal\google_analytics_counter;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Config\FileStorage;
 use Drupal\Core\Database\Connection;
+use Drupal\Core\Entity\EntityDisplayRepositoryInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
@@ -52,6 +53,13 @@ class GoogleAnalyticsCounterCustomFieldGenerator implements GoogleAnalyticsCount
   protected $messenger;
 
   /**
+   * The Entity display instance.
+   *
+   * @var \Drupal\Core\Entity\EntityDisplayRepositoryInterface
+   */
+  protected $entity_display_repository;
+
+  /**
    * Drupal\google_analytics_counter\GoogleAnalyticsCounterCustomFieldGeneratorInterface.
    *
    * @var \Drupal\google_analytics_counter\GoogleAnalyticsCounterCustomFieldGeneratorInterface
@@ -69,12 +77,18 @@ class GoogleAnalyticsCounterCustomFieldGenerator implements GoogleAnalyticsCount
    *   A logger instance.
    * @param \Drupal\Core\Messenger\MessengerInterface $messenger
    *   The messenger service.
+   * @param \Drupal\Core\Enity\EntityDisplayRepositoryInterface $entity_display_repository
+   *   The Enity display instance.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, Connection $connection, LoggerInterface $logger, MessengerInterface $messenger) {
+  public function __construct(ConfigFactoryInterface $config_factory,
+                              Connection $connection, LoggerInterface
+                              $logger, MessengerInterface $messenger,
+                              EntityDisplayRepositoryInterface $entity_display_repository) {
     $this->config = $config_factory->get('google_analytics_counter.settings');
     $this->connection = $connection;
     $this->logger = $logger;
     $this->messenger = $messenger;
+    $this->entity_display_repository = $entity_display_repository;
   }
 
   /****************************************************************************/
@@ -149,7 +163,7 @@ class GoogleAnalyticsCounterCustomFieldGenerator implements GoogleAnalyticsCount
       $field->save();
 
       // Assign widget settings for the 'default' form mode.
-      entity_get_form_display('node', $type->id(), 'default')
+      $this->entity_display_repository->getFormDisplay('node', $type->id(), 'default')
         ->setComponent('google_analytics_counter', array(
           'type' => 'int',
           '#maxlength' => 255,
@@ -159,7 +173,7 @@ class GoogleAnalyticsCounterCustomFieldGenerator implements GoogleAnalyticsCount
         ->save();
 
       // Assign display settings for the 'default' and 'teaser' view modes.
-      entity_get_display('node', $type->id(), 'default')
+      $this->entity_display_repository->getViewDisplay('node', $type->id(), 'default')
         ->setComponent('google_analytics_counter', array(
           'label' => 'hidden',
           'type' => 'int',
@@ -168,9 +182,9 @@ class GoogleAnalyticsCounterCustomFieldGenerator implements GoogleAnalyticsCount
 
       // The teaser view mode is created by the Standard profile and therefore
       // might not exist.
-      $view_modes = \Drupal::entityManager()->getViewModes('node');
+      $view_modes = $this->entity_display_repository->getViewModes('node');
       if (isset($view_modes['teaser'])) {
-        entity_get_display('node', $type->id(), 'teaser')
+        $this->entity_display_repository->getViewDisplay('node', $type->id(), 'teaser')
           ->setComponent('google_analytics_counter', array(
             'label' => 'hidden',
             'type' => 'textfield',
@@ -238,7 +252,7 @@ class GoogleAnalyticsCounterCustomFieldGenerator implements GoogleAnalyticsCount
    */
   public function gacChangeConfigToNull() {
     $config_factory = \Drupal::configFactory();
-    $content_types = \Drupal::service('entity.manager')
+    $content_types = \Drupal::service('entity_type.manager')
       ->getStorage('node_type')
       ->loadMultiple();
 

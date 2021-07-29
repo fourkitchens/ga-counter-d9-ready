@@ -2,7 +2,7 @@
 
 namespace Drupal\google_analytics_counter\Plugin\Filter;
 
-use Drupal\Core\Path\AliasManagerInterface;
+use Drupal\path_alias\AliasManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Path\CurrentPathStack;
 use Drupal\Core\State\StateInterface;
@@ -33,7 +33,7 @@ class GoogleAnalyticsCounterFilter extends FilterBase implements ContainerFactor
   /**
    * An alias manager for looking up the system path and path alias.
    *
-   * @var \Drupal\Core\Path\AliasManagerInterface
+   * @var \Drupal\path_alias\AliasManagerInterface
    */
   protected $aliasManager;
 
@@ -62,7 +62,7 @@ class GoogleAnalyticsCounterFilter extends FilterBase implements ContainerFactor
    *   The plugin implementation definition.
    * @param \Drupal\Core\Path\CurrentPathStack $current_path
    *   The current path.
-   * @param \Drupal\Core\Path\AliasManagerInterface $alias_manager
+   * @param \Drupal\path_alias\AliasManagerInterface $alias_manager
    *   An alias manager for looking up the system path.
    * @param \Drupal\Core\State\StateInterface $state
    *   The state of the drupal site.
@@ -86,7 +86,7 @@ class GoogleAnalyticsCounterFilter extends FilterBase implements ContainerFactor
       $plugin_id,
       $plugin_definition,
       $container->get('path.current'),
-      $container->get('path.alias_manager'),
+      $container->get('path_alias.manager'),
       $container->get('state'),
       $container->get('google_analytics_counter.app_manager')
     );

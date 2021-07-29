@@ -237,7 +237,7 @@ function google_analytics_counter_update_8009() {
   $config_factory = \Drupal::configFactory();
 
   // Get the content types.
-  $content_types = \Drupal::service('entity.manager')
+  $content_types = \Drupal::service('entity_type.manager')
     ->getStorage('node_type')
     ->loadMultiple();
 

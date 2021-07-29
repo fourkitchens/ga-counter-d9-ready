@@ -108,7 +108,7 @@ class GoogleAnalyticsCounterConfigureTypesForm extends ConfigFormBase {
       '#description' => $this->t('Check the content types to add the custom Google Analytics Counter field to.'),
       '#open' => TRUE,
     ];
-    $content_types = \Drupal::service('entity.manager')->getStorage('node_type')->loadMultiple();
+    $content_types = \Drupal::service('entity_type.manager')->getStorage('node_type')->loadMultiple();
     foreach ($content_types as $machine_name => $content_type) {
       $form['gac_content_types']["gac_type_$machine_name"] = [
         '#type' => 'checkbox',
@@ -152,7 +152,7 @@ class GoogleAnalyticsCounterConfigureTypesForm extends ConfigFormBase {
       }
 
       // Get the NodeTypeInterface $type from gac_type_{content_type}.
-      $type = \Drupal::service('entity.manager')
+      $type = \Drupal::service('entity_type.manager')
         ->getStorage('node_type')
         ->load(substr($key, 9));
 

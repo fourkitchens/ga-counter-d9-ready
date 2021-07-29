@@ -7,7 +7,7 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Messenger\MessengerInterface;
-use Drupal\Core\Path\AliasManagerInterface;
+use Drupal\path_alias\AliasManagerInterface;
 use Drupal\Core\Path\PathMatcherInterface;
 use Drupal\Core\State\StateInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
@@ -51,7 +51,7 @@ class GoogleAnalyticsCounterAppManager implements GoogleAnalyticsCounterAppManag
   /**
    * The path alias manager.
    *
-   * @var \Drupal\Core\Path\AliasManagerInterface
+   * @var \Drupal\path_alias\AliasManagerInterface
    */
   protected $aliasManager;
 
@@ -107,7 +107,7 @@ class GoogleAnalyticsCounterAppManager implements GoogleAnalyticsCounterAppManag
    *   A database connection.
    * @param \Drupal\Core\State\StateInterface $state
    *   The state of the drupal site.
-   * @param \Drupal\Core\Path\AliasManagerInterface $alias_manager
+   * @param \Drupal\path_alias\AliasManagerInterface $alias_manager
    *   The path alias manager to find aliased resources.
    * @param \Drupal\Core\Path\PathMatcherInterface $path_matcher
    *   The path matcher.

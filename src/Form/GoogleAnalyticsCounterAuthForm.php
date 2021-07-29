@@ -179,7 +179,7 @@ class GoogleAnalyticsCounterAuthForm extends ConfigFormBase {
     ];
 
     $current_path = \Drupal::service('path.current')->getPath();
-    $uri = \Drupal::service('path.alias_manager')->getAliasByPath($current_path);
+    $uri = \Drupal::service('path_alias.manager')->getAliasByPath($current_path);
     $description = $this->t('The path that users are redirected to after they have authenticated with Google.<br /> Default: <strong>@default_uri</strong>', ['@default_uri' => $base_url . $uri]);
     $form['redirect_uri'] = [
       '#type' => 'textfield',

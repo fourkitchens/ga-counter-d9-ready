@@ -36,7 +36,7 @@ class GoogleAnalyticsCounterHelper {
    */
   public static function gacSaveTypeConfig() {
     $config_factory = \Drupal::configFactory();
-    $content_types = \Drupal::service('entity.manager')
+    $content_types = \Drupal::service('entity_type.manager')
       ->getStorage('node_type')
       ->loadMultiple();
 
